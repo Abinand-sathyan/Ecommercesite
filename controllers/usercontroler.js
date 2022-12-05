@@ -4,5 +4,9 @@ const getUserhome = (req, res) => {
 const getUserlogin = (req, res) => {
     res.render('user/UserLogin')
 }
+const getUserSignUp = (req, res) => {
+    res.render('user/userSignUp')
+}
 module.exports={getUserlogin,
-                getUserhome}    
+                getUserhome,
+                getUserSignUp}    
