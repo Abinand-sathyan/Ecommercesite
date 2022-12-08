@@ -23,6 +23,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use(
+  session({
+    secret: "testkey",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge:700000},
+    
+  })
+);
+
 app.use("/admin", adminRouter);
 app.use("/", usersRouter);
 
