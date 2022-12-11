@@ -24,6 +24,10 @@ const UserSchema=new mongoose.Schema({
     mobile_number:{
         type:Number,
         required:true
+    },
+    block:{
+      type:Boolean,
+      default:true
     }
 
 });

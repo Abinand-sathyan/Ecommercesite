@@ -1,0 +1,38 @@
+<%- include('partials/adminheader.ejs') %>
+<div class="row">
+  <a href="getaddcategory" style="width: 100%;"><button type="button" class="btn btn-primary" style="width: 100%;">Add Category</button></a>
+  </div>
+<div class="row ">
+  <div class="col-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Order Status</h4>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+                <tr>
+                <th> Category management</th>
+                <th> images</th>
+                <th> Date </th>
+                </tr>
+            </thead>
+            <tbody>
+              <% for( let i = 0; i < categorydata.length; i++ ) { %>
+              
+              
+               <tr>
+                <td>
+              <span class="pl-2"><%-categorydata[i].CategoryName %> </span>
+                </td>
+                <td> <img src="/images/<%-categorydata[i].images[0].filename %>"/></td>
+                <td> $14,500 </td>
+              </tr>
+              <% } %>
+             </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <%- include('partials/adminfooter.ejs') %>

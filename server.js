@@ -9,7 +9,7 @@ mongoose
         console.log("err in db"+err)
      })
 
-     const PORT=process.env.PORT || 3000
+     const PORT=process.env.PORT 
 
 
    app.listen(PORT,(error)=>{

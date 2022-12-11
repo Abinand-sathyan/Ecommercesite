@@ -1,7 +1,8 @@
 .page-body-wrapper {
   min-height: 100vh;
   @include display-flex();
-  @include flex-direction(row);
+  @include flex-direction(column);
+  
   padding-left: 0;
   padding-right: 0;
   transition: all 0.25s ease;
