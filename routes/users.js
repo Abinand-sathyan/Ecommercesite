@@ -11,7 +11,7 @@ var{getUserhome,
     router.get("/usersignup",getUserSignUp);
     router.post("/register",getUserregister);
     router.post("/gethome",getUserhome);
-    //router.post("/userlogin",postotp);
+    router.post("/userlogin",postotp);
     router.get("/otp",otp);
 
 

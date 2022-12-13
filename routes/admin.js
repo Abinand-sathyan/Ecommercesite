@@ -9,7 +9,12 @@ const {getAdmin,
     getcategorylist,
     getaddcategory,
     postaddcategory,
-    getcategory} = require("../controllers/admincontroler");
+    categoryDelete,
+    categoryEdit,
+    posteditcategory,
+    getproductlist,
+    getaddproduct,
+    postproductdata} = require("../controllers/admincontroler");
 
 
     router.get("/",getAdmin);
@@ -20,6 +25,13 @@ const {getAdmin,
     router.get("/categorylist",getcategorylist);
     router.get("/getaddcategory",getaddcategory);
     router.post("/postaddcategory",upload.array("ImageURL",3),postaddcategory);
+    router.post("/posteditcategory/:id",upload.array("ImageURL",3),posteditcategory);
+    router.get("/categoryDelete/:id",categoryDelete);
+    router.get("/categoryEdit/:id",categoryEdit)
+    router.get("/getproductlist",getproductlist)
+    router.get("/getaddproduct",getaddproduct)
+    router.post("/postproductdata",upload.array("ImageURL",4),postproductdata);
+
    
 
 

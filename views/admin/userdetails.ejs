@@ -8,14 +8,7 @@
             <table class="table">
               <thead>
                 <tr>
-                  <!-- <th>
-                     <div class="form-check form-check-muted m-0">
-                      <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input">
-                      </label>
-                    </div>
-                  </th> -->
-                  <th> Name </th>
+                  <th>Name</th>
                   <th> email </th>
                   <th> phone number </th>
                   <th> status </th>
@@ -34,9 +27,9 @@
                   </td> -->
                <td>
                 <% if (userdetails[i].block==true) { %>
-                  <img src="assets/images/faces/face1.png" alt="image" />
+                  <img src="/admin/assets/images/faces/face1.png" alt="image" />
                   <% } else { %>
-                    <img src="assets/images/faces/images.png" alt="image" />
+                    <img src="/admin/assets/images/faces/images.png" alt="image" />
                     <% } %>
                   <span class="pl-2"><%-userdetails[i].first_name %></span>
                   </td>
@@ -47,11 +40,11 @@
                   <td> 04 Dec 2019 </td> -->
                   <% if (userdetails[i].block==true) { %>
                   <td>
-                    <div class="badge badge-outline-success"><a href="block/<%- userdetails[i]._id %>">block</a></div> 
+                    <div class="badge badge-outline-success"><a href="/admin/block/<%- userdetails[i]._id %>">block</a></div> 
                   </td>
                   <% } else { %>
                   <td>
-                    <div class="badge badge-outline-danger" ><a style="color: red;" href="unblock/<%- userdetails[i]._id %>">unblock</a></div> 
+                    <div class="badge badge-outline-danger" ><a style="color: red;" href="/admin/unblock/<%- userdetails[i]._id %>">unblock</a></div> 
                   </td>
                   <% } %>
                 </tr>

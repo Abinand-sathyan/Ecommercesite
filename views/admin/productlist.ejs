@@ -1,0 +1,52 @@
+<%- include('partials/adminheader.ejs') %>
+<div class="row">
+    <a href="/admin/getaddproduct" style="width: 100%; "><button type="button" class="btn btn-primary" style="width: 100%;height: 3rem;">Add Product</button></a>
+    </div>
+  <div class="row ">
+    <div class="col-12 grid-margin">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Product List</h4>
+          <div class="table-responsive">
+            <table class="table">
+              <% for( let i = 0; i < ProductDetails.length; i++ ) { %>
+              
+              <% } %>
+              <thead>
+                  <tr>
+                  <th> Product Name</th>
+                  <th> Discription</th>
+                  <th> Size</th>
+                  <th> color</th>
+                  <th> Date </th>
+                  <th> category</th>
+                  <th> Main image</th>
+                  <th> Sub image1</th>
+                  <th>Sub image2</th>
+                  <th>Sub image3</th>
+                  </tr>
+              </thead>
+              <tbody>
+                <tr>
+                    <td><%- ProductDetails[i].ProductName %>  </td>
+                    <td> <%- ProductDetails[i].Discription %> </td>
+                    <td> <%- ProductDetails[i].Prize %</td>
+                    <td> <%- ProductDetails[i].Size %> </td>
+                    <td> <%- ProductDetails[i].Color %> </td>
+                    <td> <%- ProductDetails[i].Category %>  </td>
+                    <td> <img src="/images/<%-ProductDetails[i].images[1].filename %>"/></td>
+                    <td> <img src="/images/<%-ProductDetails[i].images[2].filename %>"/></td>
+                    <td> <img src="/images/<%-ProductDetails[i].images[3].filename %>"/></td>
+                    <td> <img src="/images/<%-ProductDetails[i].images[4].filename %>"/></td>
+                    <td>
+                      <div class="badge badge-outline-success">Approved</div>
+                    </td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<%- include('partials/adminfooter.ejs') %>

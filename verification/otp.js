@@ -10,6 +10,7 @@ function sendotp(sendotpphone){
     .services(verifySid)
     .verifications.create({ to:`+91${sendotpphone}`, channel: "sms" })
     .then((verification) => console.log(verification.status));
+    console.log(sendotpphone);
 
 }
 
