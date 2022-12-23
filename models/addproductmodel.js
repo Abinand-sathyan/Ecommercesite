@@ -2,45 +2,37 @@ const mongoose=require("mongoose")
 const addproductschema=mongoose.Schema({
     ProductName:{
         type:String,
-       
+        require:true,
+       },
+    quantity:{
+        type:Number,
+        require:true,
     },
     Discription:{
         type:String,
-       
+        require:true,
     },
     Prize:{
         type:Number,
-       
+        require:true,
     },
     Size:{
-        type:Number,
-        
+        type:String,
+        require:true,
     },
     Color:{
         type:String,
-        
+        require:true,
     },
     Category:{
         type:String,
-        
+        require:true,
     },
-    Mainimage:{
-        type:String,
-        
-    },
-    Subimage1:{
-        type:String,
-        
-    },
-    Subimage2:{
-        type:String,
-        
-    },
-    Subimage3:{
-        type:String,
-        
-    },
-},{
+    ImageURL:{
+        type:Array,
+        require:true,
+        }, 
+   },{
     timestamps:true
 })
 let AddProduct=mongoose.model("addproduct",addproductschema)

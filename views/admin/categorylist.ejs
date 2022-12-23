@@ -22,10 +22,10 @@
                 <td>
               <span class="pl-2"><%-categorydata[i].CategoryName %> </span>
                 </td>
-                <td> <img src="/images/<%-categorydata[i].images[0].filename %>"/></td>
+                <td> <img src="/images/<%-categorydata[i].ImageURL[0].filename %>"/></td>
                 <td><%-categorydata[i].createdAt %>  </td>
                 <td>
-                <a href="/admin/categoryDelete/<%-categorydata[i]._id %>"> <button type="button" class="btn btn-outline-danger">Delete</button></a>
+                <a href="/admin/categoryDelete/<%-categorydata[i]._id %>"><button type="button" class="btn btn-outline-danger">Delete</button></a>
               </td>
               <td>
                 <a href="/admin/categoryEdit/<%-categorydata[i]._id %>"> <button type="button" class="btn btn-outline-success">Edit</button></a>

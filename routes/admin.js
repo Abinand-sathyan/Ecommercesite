@@ -1,5 +1,6 @@
 const express=require('express')
 const upload=require("../middleware/muter")
+const session=require("../middleware/adminsession")
 const router=express.Router();
 const {getAdmin,
     AdminLogin,
@@ -14,12 +15,18 @@ const {getAdmin,
     posteditcategory,
     getproductlist,
     getaddproduct,
-    postproductdata} = require("../controllers/admincontroler");
+    postproductdata,
+    productDelete,
+    getproductedit,
+    posteditproduct} = require("../controllers/admincontroler");
 
 
+    
+    
+    
     router.get("/",getAdmin);
     router.post("/Adminlogin",AdminLogin);
-    router.get("/userdetails",getusers);
+    router.get("/userdetails",session,getusers);
     router.get("/block/:id",blockuser);
     router.get("/unblock/:id",unblockuser);
     router.get("/categorylist",getcategorylist);
@@ -31,6 +38,9 @@ const {getAdmin,
     router.get("/getproductlist",getproductlist)
     router.get("/getaddproduct",getaddproduct)
     router.post("/postproductdata",upload.array("ImageURL",4),postproductdata);
+    router.get("/productDelete/:id",productDelete);
+    router.get("/getproductedit/:id",getproductedit);
+    router.post("/posteditproduct/:id",upload.array("ImageURL",4),posteditproduct);
 
    
 

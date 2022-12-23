@@ -5,7 +5,7 @@ const categoryschema=new mongoose.Schema({
         require:true
       
     },
-    images:{
+    ImageURL:{
         type:Array,
          require:true
      }

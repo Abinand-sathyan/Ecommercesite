@@ -1,23 +1,25 @@
 const UserDB = require("../models/userModel");
 const categoryDB = require("../models/categorymodel");
-const productDB =require("../models/addproductmodel")
+const productDB = require("../models/addproductmodel");
 const mongoose = require("mongoose");
 const moment = require("moment");
 const {
   LogInstance,
 } = require("twilio/lib/rest/serverless/v1/service/environment/log");
 const { findOne, findById, validate } = require("../models/userModel");
+
+
+
+
 const getAdmin = (req, res) => {
   res.render("admin/Adminlogin");
 };
-
 
 const getusers = async (req, res) => {
   let userdetails = await UserDB.find();
   //  console.log(userdetails)
   res.render("admin/userdetails", { userdetails });
 };
-
 
 const blockuser = async (req, res) => {
   const userid = req.params.id;
@@ -29,7 +31,6 @@ const blockuser = async (req, res) => {
     res.redirect("/admin/dashboard");
   }
 };
-
 
 const unblockuser = async (req, res) => {
   console.log("eraagrgwrgWF");
@@ -44,8 +45,6 @@ const unblockuser = async (req, res) => {
   }
 };
 
-
-
 const AdminLogin = (req, res) => {
   console.log(req.body);
   const AdmineMail = process.env.ADMIN_EMAIL;
@@ -55,12 +54,12 @@ const AdminLogin = (req, res) => {
   console.log(AdmineMail, Adminpassword);
 
   if (AdmineMail == email && Adminpassword == password) {
+    req.session.adminlogin = true;
     res.render("admin/dashboard");
   } else {
     res.redirect("/admin");
   }
 };
-
 
 const getcategorylist = async (req, res) => {
   const categorydata = await categoryDB.find();
@@ -68,14 +67,10 @@ const getcategorylist = async (req, res) => {
   res.render("admin/categorylist", { categorydata });
 };
 
-
-
 const getaddcategory = (req, res) => {
   console.log("the real");
   res.render("admin/addcategory");
 };
-
-
 
 const postaddcategory = async (req, res) => {
   console.log("vjbkcjkvbvbjvjkvjvjnk");
@@ -93,7 +88,7 @@ const postaddcategory = async (req, res) => {
     if (!DBcategory) {
       Object.assign(req.body, {
         CategoryName: reqcategoryname,
-        images: reqimageUrl,
+        ImageURL: reqimageUrl,
       });
       console.log(req.body);
       const newcategory = await new categoryDB(req.body);
@@ -117,14 +112,12 @@ const postaddcategory = async (req, res) => {
   }
 };
 
-
 const categoryDelete = async (req, res) => {
   const catid = req.params.id;
   await categoryDB.findByIdAndRemove(catid).then((category) => {
     res.redirect("/admin/categorylist");
   });
 };
-
 
 const categoryEdit = async (req, res) => {
   console.log(req.params.id);
@@ -135,9 +128,6 @@ const categoryEdit = async (req, res) => {
     res.render("admin/editcategory", { editdata });
   }
 };
-
-
-
 
 const posteditcategory = async (req, res) => {
   console.log(req.files, req.params, req.body);
@@ -162,7 +152,7 @@ const posteditcategory = async (req, res) => {
       console.log(req.body);
       Object.assign(req.body, {
         CategoryName: editname,
-        images: editimage,
+        ImageURL: editimage,
         createdAt: moment().format("MM/DD/YYYY"),
       });
       await categoryDB.findByIdAndUpdate(
@@ -181,53 +171,106 @@ const posteditcategory = async (req, res) => {
   }
 };
 
-
-const getproductlist= async (req,res)=>{
+const getproductlist = async (req, res) => {
   console.log("get pro list");
-  const ProductDetails= await productDB.find();
-  res.render("admin/productlist",{ProductDetails})
+  const ProductDetails = await productDB.find();
+  console.log(ProductDetails);
+  res.render("admin/productlist", { ProductDetails });
 };
 
-const getaddproduct=(req,res)=>{
+const getaddproduct = async (req, res) => {
   console.log("get pro list");
-  res.render("admin/addproduct")
+  const categoryname = await categoryDB.find();
+  res.render("admin/addproduct", { categoryname });
 };
 
-const postproductdata= async(req,res)=>{
-  try{
-  console.log(req.body,req.files);
+const postproductdata = async (req, res) => {
+  try {
+    console.log(req.body, req.files);
 
-  const img=[]
-  req.files.forEach((fl)=>{
-    img.push(fl.filename)
-  });
-  console.log(img);
+    const img = [];
+    req.files.forEach((fl) => {
+      img.push(fl.filename);
+    });
+    console.log(img);
 
-  const {productname, discription,prize,size,color,category}=req.body
-  console.log(productname, discription,prize,size,color,category,"hghfgfghfgf");
-  if(productname&&discription&&prize&&size&&color&&category){
-    console.log("fehehdggdgdgdg");
-    await Object.assign(req.body,{ImageURL:img,createdAt: moment().format("MM/DD/YYYY")})
-    console.log(req.body);
-    const newproduct=await new productDB(req.body)
-    await newproduct.save()
-    .then((result)=>{console.log(result);
-    res.redirct("/admin/getproductlist")})
-    .catch((err)=>{console.log(err);})
+    const { ProductName,quantity, Discription, Prize, Size, Color, Category } = req.body;
+    console.log(
+      ProductName,
+      quantity,
+      Discription,
+      Prize,
+      Size,
+      Color,
+      Category,
+      "hghfgfghfgf"
+    );
+    if (ProductName && quantity && Discription && Prize && Size && Color && Category) {
+      console.log("fehehdggdgdgdg");
+
+      await Object.assign(req.body, {
+        ImageURL: img,
+        createdAt: moment().format("MM/DD/YYYY"),
+      });
+      console.log(req.body);
+      const newproduct = await new productDB(req.body);
+      await newproduct
+        .save()
+        .then((result) => {
+          console.log(result);
+          res.redirect("/admin/getproductlist");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      res.redirect("/admin/getaddproduct");
     }
-  else{
-    res.redirect("/admin/getaddproduct")
+  } catch {
+    console.log("catched");
   }
-}
-catch{
-  console.log("catched");
-}
-  
-}
+};
 
+const productDelete = async (req, res) => {
+  console.log("weffffffwef");
+  const deletepoduct = req.params.id;
+  await productDB.findByIdAndRemove(deletepoduct);
+  res.redirect("/admin/getproductlist");
+};
 
+const getproductedit = async (req, res) => {
+  console.log(req.params, "kuguigyifuyfuigiy");
+  const editproductid = req.params.id;
+  console.log(editproductid);
+  const editproductdata = await productDB.findById({ _id: editproductid });
+  const editcategory = await categoryDB.find();
+  console.log(editproductdata);
+  res.render("admin/editproduct", { editproductdata, editcategory });
+};
 
+const posteditproduct = async (req, res) => {
+  try {
+    console.log(req.body, req.files, req.params);
+    const body = req.body;
+    const productId = req.params.id;
+    if (req.files.length === 0) {
+      console.log(productId, "jjkhghghgkvjsa");
+      await productDB.findByIdAndUpdate(productId, { $set: body });
+      res.redirect("/admin/getproductlist");
+    } else {
+      const img = [];
 
+      req.files.forEach((arrimg) => {
+        img.push(arrimg.filename);
+      });
+      Object.assign(body, { ImageURL: img });
+      await productDB.findByIdAndUpdate(productId, { $set: body });
+      res.redirect("/admin/getproductlist");
+    }
+  } catch {
+    res.redirect(`/getproductedit/${productId}`);
+  }
+};
 
 module.exports = {
   getAdmin,
@@ -243,4 +286,8 @@ module.exports = {
   posteditcategory,
   getproductlist,
   getaddproduct,
-  postproductdata};
+  postproductdata,
+  productDelete,
+  getproductedit,
+  posteditproduct,
+};

@@ -80,18 +80,20 @@
 
 
 	<!-- Banner -->
-	<div class="sec-banner bg0 p-t-80 p-b-50">
+	
+	<div class="sec-banner bg0 p-t-80 p-b-50 d-flex" >
 		<div class="container">
 			<div class="row">
+				<% for( let i = 0; i < categorylist.length; i++ ) { %>
 				<div class="col-md-6 col-xl-4 p-b-30 m-lr-auto">
 					<!-- Block1 -->
-					<div class="block1 wrap-pic-w">
-						<img src="/user/images/banner-01.jpg" alt="IMG-BANNER">
+			   <div class="block1 wrap-pic-w">
+						<img src="/images/<%-categorylist[i].ImageURL[0].filename %>" alt="IMG-BANNER">
 
 						<a href="/user/product.html" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
 							<div class="block1-txt-child1 flex-col-l">
 								<span class="block1-name ltext-102 trans-04 p-b-8">
-									Women
+									<%-categorylist[i].CategoryName %> 
 								</span>
 
 								<span class="block1-info stext-102 trans-04">
@@ -107,59 +109,16 @@
 						</a>
 					</div>
 				</div>
+           <% } %>
 
-				<div class="col-md-6 col-xl-4 p-b-30 m-lr-auto">
-					<!-- Block1 -->
-					<div class="block1 wrap-pic-w">
-						<img src="/user/images/banner-02.jpg" alt="IMG-BANNER">
-
-						<a href="/user/product.html" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
-							<div class="block1-txt-child1 flex-col-l">
-								<span class="block1-name ltext-102 trans-04 p-b-8">
-									Men
-								</span>
-
-								<span class="block1-info stext-102 trans-04">
-									Spring 2018
-								</span>
-							</div>
-
-							<div class="block1-txt-child2 p-b-4 trans-05">
-								<div class="block1-link stext-101 cl0 trans-09">
-									Shop Now
-								</div>
-							</div>
-						</a>
-					</div>
-				</div>
-
-				<div class="col-md-6 col-xl-4 p-b-30 m-lr-auto">
-					<!-- Block1 -->
-					<div class="block1 wrap-pic-w">
-						<img src="/user/images/banner-03.jpg" alt="IMG-BANNER">
-
-						<a href="/user/product.html" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
-							<div class="block1-txt-child1 flex-col-l">
-								<span class="block1-name ltext-102 trans-04 p-b-8">
-									Accessories
-								</span>
-
-								<span class="block1-info stext-102 trans-04">
-									New Trend
-								</span>
-							</div>
-
-							<div class="block1-txt-child2 p-b-4 trans-05">
-								<div class="block1-link stext-101 cl0 trans-09">
-									Shop Now
-								</div>
-							</div>
-						</a>
-					</div>
-				</div>
 			</div>
+			
 		</div>
+		
 	</div>
+	
+
+	
 
 
 	<!-- Product -->
@@ -414,25 +373,25 @@
 			</div>
 
 			<div class="row isotope-grid">
+				<% for( let i = 0; i < productlist.length; i++ ) { %>
 				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
 					<!-- Block2 -->
 					<div class="block2">
 						<div class="block2-pic hov-img0">
-							<img src="/user/images/product-01.jpg" alt="IMG-PRODUCT">
-
+							<img src="/images/<%-productlist[i].ImageURL[0] %> " alt="IMG-PRODUCT">
 							<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
 								Quick View
 							</a>
 						</div>
-
+					
 						<div class="block2-txt flex-w flex-t p-t-14">
 							<div class="block2-txt-child1 flex-col-l ">
-								<a href="vproduct-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-									Esprit Ruffle Shirt
+								<a href="/getproductdetails/<%= productlist[i]._id %>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+									<%- productlist[i].ProductName %> 
 								</a>
-
+								
 								<span class="stext-105 cl3">
-									$16.64
+									₹<%- productlist[i].Prize %> 
 								</span>
 							</div>
 
@@ -446,9 +405,9 @@
 					</div>
 				</div>
 
-				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
+				<!-- <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women"> -->
 					<!-- Block2 -->
-					<div class="block2">
+					<!-- <div class="block2">
 						<div class="block2-pic hov-img0">
 							<img src="/user/images/product-02.jpg" alt="IMG-PRODUCT">
 
@@ -478,9 +437,9 @@
 					</div>
 				</div>
 
-				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item men">
+				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item men"> -->
 					<!-- Block2 -->
-					<div class="block2">
+					<!-- <div class="block2">
 						<div class="block2-pic hov-img0">
 							<img src="/user/images/product-03.jpg" alt="IMG-PRODUCT">
 
@@ -511,8 +470,8 @@
 				</div>
 
 				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
-					<!-- Block2 -->
-					<div class="block2">
+					<-- Block2 -->
+					<!-- <div class="block2">
 						<div class="block2-pic hov-img0">
 							<img src="/user/images/product-04.jpg" alt="IMG-PRODUCT">
 
@@ -542,9 +501,9 @@
 					</div>
 				</div>
 
-				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
+				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women"> -->
 					<!-- Block2 -->
-					<div class="block2">
+					<!-- <div class="block2">
 						<div class="block2-pic hov-img0">
 							<img src="/user/images/product-05.jpg" alt="IMG-PRODUCT">
 
@@ -574,9 +533,9 @@
 					</div>
 				</div>
 
-				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item watches">
+				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item watches"> -->
 					<!-- Block2 -->
-					<div class="block2">
+					<!-- <div class="block2">
 						<div class="block2-pic hov-img0">
 							<img src="/user/images/product-06.jpg" alt="IMG-PRODUCT">
 
@@ -606,9 +565,9 @@
 					</div>
 				</div>
 
-				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
+				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women"> -->
 					<!-- Block2 -->
-					<div class="block2">
+					<!-- <div class="block2">
 						<div class="block2-pic hov-img0">
 							<img src="/user/images/product-07.jpg" alt="IMG-PRODUCT">
 
@@ -638,9 +597,9 @@
 					</div>
 				</div>
 
-				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
+				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women"> -->
 					<!-- Block2 -->
-					<div class="block2">
+					<!-- <div class="block2">
 						<div class="block2-pic hov-img0">
 							<img src="/user/images/product-08.jpg" alt="IMG-PRODUCT">
 
@@ -670,9 +629,9 @@
 					</div>
 				</div>
 
-				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item shoes">
+				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item shoes"> -->
 					<!-- Block2 -->
-					<div class="block2">
+					<!-- <div class="block2">
 						<div class="block2-pic hov-img0">
 							<img src="/user/images/product-09.jpg" alt="IMG-PRODUCT">
 
@@ -702,9 +661,9 @@
 					</div>
 				</div>
 
-				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
+				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women"> -->
 					<!-- Block2 -->
-					<div class="block2">
+					<!-- <div class="block2">
 						<div class="block2-pic hov-img0">
 							<img src="/user/images/product-10.jpg" alt="IMG-PRODUCT">
 
@@ -734,9 +693,9 @@
 					</div>
 				</div>
 
-				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item men">
+				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item men"> -->
 					<!-- Block2 -->
-					<div class="block2">
+					<!-- <div class="block2">
 						<div class="block2-pic hov-img0">
 							<img src="/user/images/product-11.jpg" alt="IMG-PRODUCT">
 
@@ -766,9 +725,9 @@
 					</div>
 				</div>
 
-				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item men">
+				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item men"> -->
 					<!-- Block2 -->
-					<div class="block2">
+					<!-- <div class="block2">
 						<div class="block2-pic hov-img0">
 							<img src="/user/images/product-12.jpg" alt="IMG-PRODUCT">
 
@@ -798,9 +757,9 @@
 					</div>
 				</div>
 
-				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
+				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women"> -->
 					<!-- Block2 -->
-					<div class="block2">
+					<!-- <div class="block2">
 						<div class="block2-pic hov-img0">
 							<img src="/user/images/product-13.jpg" alt="IMG-PRODUCT">
 
@@ -830,9 +789,9 @@
 					</div>
 				</div>
 
-				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
+				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women"> -->
 					<!-- Block2 -->
-					<div class="block2">
+					<!-- <div class="block2">
 						<div class="block2-pic hov-img0">
 							<img src="/user/images/product-14.jpg" alt="IMG-PRODUCT">
 
@@ -862,9 +821,9 @@
 					</div>
 				</div>
 
-				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item watches">
+				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item watches"> -->
 					<!-- Block2 -->
-					<div class="block2">
+					<!-- <div class="block2">
 						<div class="block2-pic hov-img0">
 							<img src="/user/images/product-15.jpg" alt="IMG-PRODUCT">
 
@@ -894,9 +853,9 @@
 					</div>
 				</div>
 
-				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
+				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women"> -->
 					<!-- Block2 -->
-					<div class="block2">
+					<!-- <div class="block2">
 						<div class="block2-pic hov-img0">
 							<img src="/user/images/product-16.jpg" alt="IMG-PRODUCT">
 
@@ -924,7 +883,8 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div>  -->
+				<% } %>
 			</div>
 
 			<!-- Load more -->
@@ -953,7 +913,7 @@
 								<div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
 
 								<div class="slick3 gallery-lb">
-									<div class="item-slick3" data-thumb="images/product-detail-01.jpg">
+									<div class="item-slick3" data-thumb="/user/images/product-detail-01.jpg">
 										<div class="wrap-pic-w pos-relative">
 											<img src="/user/images/product-detail-01.jpg" alt="IMG-PRODUCT">
 
@@ -963,7 +923,7 @@
 										</div>
 									</div>
 
-									<div class="item-slick3" data-thumb="images/product-detail-02.jpg">
+									<div class="item-slick3" data-thumb="/user/images/product-detail-02.jpg">
 										<div class="wrap-pic-w pos-relative">
 											<img src="/user/images/product-detail-02.jpg" alt="IMG-PRODUCT">
 
@@ -973,7 +933,7 @@
 										</div>
 									</div>
 
-									<div class="item-slick3" data-thumb="images/product-detail-03.jpg">
+									<div class="item-slick3" data-thumb="/user/images/product-detail-03.jpg">
 										<div class="wrap-pic-w pos-relative">
 											<img src="/user/images/product-detail-03.jpg" alt="IMG-PRODUCT">
 
@@ -1088,109 +1048,4 @@
 			</div>
 		</div>
 	</div>
-
-<!--===============================================================================================-->	
-	<script src="/user/vendor/jquery/jquery-3.2.1.min.js"></script>
-<!--===============================================================================================-->
-	<script src="/user/vendor/animsition/js/animsition.min.js"></script>
-<!--===============================================================================================-->
-	<script src="/user/vendor/bootstrap/js/popper.js"></script>
-	<script src="/user/vendor/bootstrap/js/bootstrap.min.js"></script>
-<!--===============================================================================================-->
-	<script src="/user/vendor/select2/select2.min.js"></script>
-	<script>
-		$(".js-select2").each(function(){
-			$(this).select2({
-				minimumResultsForSearch: 20,
-				dropdownParent: $(this).next('.dropDownSelect2')
-			});
-		})
-	</script>
-<!--===============================================================================================-->
-	<script src="/user/vendor/daterangepicker/moment.min.js"></script>
-	<script src="/user/vendor/daterangepicker/daterangepicker.js"></script>
-<!--===============================================================================================-->
-	<script src="/user/vendor/slick/slick.min.js"></script>
-	<script src="/user/js/slick-custom.js"></script>
-<!--===============================================================================================-->
-	<script src="/user/vendor/parallax100/parallax100.js"></script>
-	<script>
-        $('.parallax100').parallax100();
-	</script>
-<!--===============================================================================================-->
-	<script src="/user/vendor/MagnificPopup/jquery.magnific-popup.min.js"></script>
-	<script>
-		$('.gallery-lb').each(function() { // the containers for all your galleries
-			$(this).magnificPopup({
-		        delegate: 'a', // the selector for gallery item
-		        type: 'image',
-		        gallery: {
-		        	enabled:true
-		        },
-		        mainClass: 'mfp-fade'
-		    });
-		});
-	</script>
-<!--===============================================================================================-->
-	<script src="/user/vendor/isotope/isotope.pkgd.min.js"></script>
-<!--===============================================================================================-->
-	<script src="/user/vendor/sweetalert/sweetalert.min.js"></script>
-	<script>
-		$('.js-addwish-b2').on('click', function(e){
-			e.preventDefault();
-		});
-
-		$('.js-addwish-b2').each(function(){
-			var nameProduct = $(this).parent().parent().find('.js-name-b2').html();
-			$(this).on('click', function(){
-				swal(nameProduct, "is added to wishlist !", "success");
-
-				$(this).addClass('js-addedwish-b2');
-				$(this).off('click');
-			});
-		});
-
-		$('.js-addwish-detail').each(function(){
-			var nameProduct = $(this).parent().parent().parent().find('.js-name-detail').html();
-
-			$(this).on('click', function(){
-				swal(nameProduct, "is added to wishlist !", "success");
-
-				$(this).addClass('js-addedwish-detail');
-				$(this).off('click');
-			});
-		});
-
-		/*---------------------------------------------*/
-
-		$('.js-addcart-detail').each(function(){
-			var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
-			$(this).on('click', function(){
-				swal(nameProduct, "is added to cart !", "success");
-			});
-		});
-	
-	</script>
-<!--===============================================================================================-->
-	<script src="/user/vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-	<script>
-		$('.js-pscroll').each(function(){
-			$(this).css('position','relative');
-			$(this).css('overflow','hidden');
-			var ps = new PerfectScrollbar(this, {
-				wheelSpeed: 1,
-				scrollingThreshold: 1000,
-				wheelPropagation: false,
-			});
-
-			$(window).on('resize', function(){
-				ps.update();
-			})
-		});
-	</script>
-<!--===============================================================================================-->
-	<script src="/user/js/main.js"></script>
-
-</body>
-</html>
 <%- include('partials/userfooter.ejs') %>

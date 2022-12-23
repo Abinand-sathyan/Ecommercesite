@@ -9,12 +9,10 @@
           <h4 class="card-title">Product List</h4>
           <div class="table-responsive">
             <table class="table">
-              <% for( let i = 0; i < ProductDetails.length; i++ ) { %>
-              
-              <% } %>
               <thead>
                   <tr>
                   <th> Product Name</th>
+                  <th> Quantity</th>
                   <th> Discription</th>
                   <th> Size</th>
                   <th> color</th>
@@ -27,22 +25,28 @@
                   </tr>
               </thead>
               <tbody>
-                <tr>
+                <% for( let i = 0; i<ProductDetails.length; i++ ) { %>
+                  <tr>
                     <td><%- ProductDetails[i].ProductName %>  </td>
+                    <td><%- ProductDetails[i].quantity %>  </td>
                     <td> <%- ProductDetails[i].Discription %> </td>
-                    <td> <%- ProductDetails[i].Prize %</td>
+                    <td> <%- ProductDetails[i].Prize %></td>
                     <td> <%- ProductDetails[i].Size %> </td>
                     <td> <%- ProductDetails[i].Color %> </td>
                     <td> <%- ProductDetails[i].Category %>  </td>
-                    <td> <img src="/images/<%-ProductDetails[i].images[1].filename %>"/></td>
-                    <td> <img src="/images/<%-ProductDetails[i].images[2].filename %>"/></td>
-                    <td> <img src="/images/<%-ProductDetails[i].images[3].filename %>"/></td>
-                    <td> <img src="/images/<%-ProductDetails[i].images[4].filename %>"/></td>
+                    <td> <img src="/images/<%-ProductDetails[i].ImageURL[0] %>"></td>
+                    <td> <img src="/images/<%-ProductDetails[i].ImageURL[1] %>"></td>
+                    <td> <img src="/images/<%-ProductDetails[i].ImageURL[2] %>"></td>
+                    <td> <img src="/images/<%-ProductDetails[i].ImageURL[3] %>"></td>
                     <td>
-                      <div class="badge badge-outline-success">Approved</div>
+                    <a href="/admin/productDelete/<%-ProductDetails[i]._id %>"><button type="button" class="btn btn-outline-danger">Delete</button></a>
+                    </td>
+                    <td>
+                      <a href="/admin/getproductedit/<%- ProductDetails[i]._id %>"><button type="button" class="btn btn-outline-success">Edit</button></a>
                     </td>
                   </tr>
-              </tbody>
+                  <% } %>
+                </tbody>
             </table>
           </div>
         </div>

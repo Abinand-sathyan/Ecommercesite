@@ -28,7 +28,7 @@ app.use(
     secret: "testkey",
     resave: false,
     saveUninitialized: true,
-    cookie: { maxAge:700000},
+    cookie: { maxAge:7000000},
     
   })
 );

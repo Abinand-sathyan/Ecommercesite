@@ -6,11 +6,14 @@ const verifySid = process.env.VERIFY_SERVICE;
 const client = require('twilio')(accountSid, authToken);
 
 function sendotp(sendotpphone){
+    console.log("shjsbdhvksabuks")
     client.verify.v2
     .services(verifySid)
     .verifications.create({ to:`+91${sendotpphone}`, channel: "sms" })
     .then((verification) => console.log(verification.status));
     console.log(sendotpphone);
+    console.log(sendotpphone,".......................")
+    console.log("w8ing.......")
 
 }
 
