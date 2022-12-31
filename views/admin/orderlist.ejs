@@ -1,0 +1,47 @@
+<%- include('partials/adminheader.ejs') %>
+<!-- <div class="row">
+    <a href="/admin/getaddproduct" style="width: 100%; "><button type="button" class="btn btn-primary" style="width: 100%;height: 3rem;">Add Product</button></a>
+    </div> -->
+  <div class="row ">
+    <div class="col-12 grid-margin">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Oreder list</h4>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                  <tr>
+                  <th> Client</th>
+                  <th> Order ID</th>
+                  <th> Payment method</th>
+                  <th> Amount</th>
+                  <th> Status</th>
+                  <th> Date </th>
+                  <th> Details</th>
+                 </tr>
+              </thead>
+              <tbody>
+                <% for( let i = 0; i<orderdetials.length; i++ ) { %>
+                  <tr>
+                    <td><%- orderdetials[i].UserId.first_name %>  </td>
+                    <td><%- orderdetials[i]._id %>  </td>
+                    <td> <%- orderdetials[i].paymentStatus %> </td>
+                    <td> <%- orderdetials[i].total %></td>
+                    <td> <%- orderdetials[i].orderStatus %> </td>
+                    <td> <%- orderdetials[i].createdAt %> </td>
+                    <td>
+                    <a href="/admin/orderdetails/<%-orderdetials[i]._id %>"><button type="button" class="btn btn-outline-success">View</button></a>
+                    </td>
+                    <!-- <td>
+                      <a href="/admin/getproductedit/<%- orderdetials[i]._id %>"><button type="button" class="btn btn-outline-success">Edit</button></a>
+                    </td> -->
+                  </tr>
+                  <% } %>
+                </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<%- include('partials/adminfooter.ejs') %>

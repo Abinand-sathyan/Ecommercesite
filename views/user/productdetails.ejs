@@ -1,4 +1,26 @@
 <%- include('partials/userheader.ejs') %>
+<style media="screen">
+    figure.zoom {
+  background-position: 50% 50%;
+  position: relative;
+  /* margin: 150px auto;
+  border: 5px solid white;
+  box-shadow: -1px 5px 15px black; */
+  /* height: 300px; */
+  /* width: 500px; */
+  overflow: hidden;
+  cursor: zoom-in;
+}
+figure.zoom img:hover {
+  opacity: 0;
+}
+figure.zoom img {
+  transition: opacity 0.5s;
+  display: block;
+  width: 100%;
+}
+  </style>
+
 <!-- breadcrumb -->
 <div class="container" style="padding-top: 6%;">
     <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
@@ -32,7 +54,8 @@
                         <div class="slick3 gallery-lb">
                             <div class="item-slick3" data-thumb="/images/<%- productsdatails.ImageURL[0] %>">
                                 <div class="wrap-pic-w pos-relative">
-                                    <img src="/images/<%- productsdatails.ImageURL[0] %>" alt="IMG-PRODUCT">
+                                    <figure   class="zoom" onmousemove="zoom(event)" style="background-image: url('/images/<%= productsdatails.ImageURL[0] %>')">
+                                    <img src="/images/<%- productsdatails.ImageURL[0] %>" alt="IMG-PRODUCT"></figure>
 
                                     <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="/images/<%- productsdatails.ImageURL[0] %>">
                                         <i class="fa fa-expand"></i>
@@ -53,8 +76,7 @@
                             <div class="item-slick3" data-thumb="/images/<%- productsdatails.ImageURL[2] %>">
                                 <div class="wrap-pic-w pos-relative">
                                     <img src="/images/<%- productsdatails.ImageURL[2] %>" alt="IMG-PRODUCT">
-
-                                    <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="/images/<%- productsdatails.ImageURL[2] %>">
+                                  <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="/images/<%- productsdatails.ImageURL[2] %>">
                                         <i class="fa fa-expand"></i>
                                     </a>
                                 </div>
@@ -629,7 +651,16 @@
     async function addtocart(id){
         let cart=await axios.post(`/postviewcart/${id}`)
   console.log(id);
-  
-    }
+}
 </script>
+<script type="text/javascript">
+    function zoom(e){
+      var zoomer = e.currentTarget;
+      e.offsetX ? offsetX = e.offsetX : offsetX = e.touches[0].pageX
+      e.offsetY ? offsetY = e.offsetY : offsetX = e.touches[0].pageX
+      x = offsetX/zoomer.offsetWidth*100
+      y = offsetY/zoomer.offsetHeight*100
+      zoomer.style.backgroundPosition = x + '% ' + y + '%';
+    }
+    </script>
 <%- include('partials/userfooter.ejs') %>

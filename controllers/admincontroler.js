@@ -1,15 +1,10 @@
 const UserDB = require("../models/userModel");
 const categoryDB = require("../models/categorymodel");
 const productDB = require("../models/addproductmodel");
+const orderDB = require("../models/ordermodel");
 const mongoose = require("mongoose");
 const moment = require("moment");
-const {
-  LogInstance,
-} = require("twilio/lib/rest/serverless/v1/service/environment/log");
 const { findOne, findById, validate } = require("../models/userModel");
-
-
-
 
 const getAdmin = (req, res) => {
   res.render("admin/Adminlogin");
@@ -194,7 +189,8 @@ const postproductdata = async (req, res) => {
     });
     console.log(img);
 
-    const { ProductName,quantity, Discription, Prize, Size, Color, Category } = req.body;
+    const { ProductName, quantity, Discription, Prize, Size, Color, Category } =
+      req.body;
     console.log(
       ProductName,
       quantity,
@@ -205,7 +201,15 @@ const postproductdata = async (req, res) => {
       Category,
       "hghfgfghfgf"
     );
-    if (ProductName && quantity && Discription && Prize && Size && Color && Category) {
+    if (
+      ProductName &&
+      quantity &&
+      Discription &&
+      Prize &&
+      Size &&
+      Color &&
+      Category
+    ) {
       console.log("fehehdggdgdgdg");
 
       await Object.assign(req.body, {
@@ -272,6 +276,28 @@ const posteditproduct = async (req, res) => {
   }
 };
 
+
+const getorderlist = async (req, res) => {
+  try {
+    const orderdetials = await orderDB.find().populate("UserId");
+    console.log(orderdetials);
+    res.render("admin/orderlist", { orderdetials });
+  } catch (error) {
+    res.render("admin/errorpage");
+  }
+};
+
+
+
+
+const orderdetails=async(req,res)=>{
+ console.log(req.params.id);
+}
+
+
+
+
+
 module.exports = {
   getAdmin,
   AdminLogin,
@@ -290,4 +316,6 @@ module.exports = {
   productDelete,
   getproductedit,
   posteditproduct,
+  getorderlist,
+  orderdetails,
 };

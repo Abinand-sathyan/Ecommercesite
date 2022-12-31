@@ -18,31 +18,42 @@ const {getAdmin,
     postproductdata,
     productDelete,
     getproductedit,
-    posteditproduct} = require("../controllers/admincontroler");
+    posteditproduct,
+    getorderlist,
+    orderdetails} = require("../controllers/admincontroler");
 
 
     
-    
+    //get methods
     
     router.get("/",getAdmin);
-    router.post("/Adminlogin",AdminLogin);
+    
     router.get("/userdetails",session,getusers);
     router.get("/block/:id",blockuser);
     router.get("/unblock/:id",unblockuser);
-    router.get("/categorylist",getcategorylist);
-    router.get("/getaddcategory",getaddcategory);
-    router.post("/postaddcategory",upload.array("ImageURL",3),postaddcategory);
-    router.post("/posteditcategory/:id",upload.array("ImageURL",3),posteditcategory);
+    router.get("/categorylist",session,getcategorylist);
+    router.get("/getaddcategory",session,getaddcategory);
     router.get("/categoryDelete/:id",categoryDelete);
     router.get("/categoryEdit/:id",categoryEdit)
-    router.get("/getproductlist",getproductlist)
+    router.get("/getproductlist",session,getproductlist)
     router.get("/getaddproduct",getaddproduct)
-    router.post("/postproductdata",upload.array("ImageURL",4),postproductdata);
     router.get("/productDelete/:id",productDelete);
     router.get("/getproductedit/:id",getproductedit);
-    router.post("/posteditproduct/:id",upload.array("ImageURL",4),posteditproduct);
+    router.get("/getorderlist",session,getorderlist)
+    router.get("/orderdetails/:id",orderdetails)
+    
 
-   
+    //post methods
+
+    router.post("/Adminlogin",AdminLogin);
+    router.post("/postaddcategory",upload.array("ImageURL",3),postaddcategory);
+    router.post("/posteditcategory/:id",upload.array("ImageURL",3),posteditcategory);
+    router.post("/postproductdata",upload.array("ImageURL",4),postproductdata);
+    router.post("/posteditproduct/:id",upload.array("ImageURL",4),posteditproduct);
+     
+
+
+
 
 
 module.exports = router;
