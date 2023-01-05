@@ -17,7 +17,7 @@ const orderSchema=mongoose.Schema({
     },
     
     Products:[{
-        product:{
+      productDedtails:{
             type:mongoose.Schema.Types.ObjectId,
             ref:"addproduct"},
         quantity:{
@@ -32,12 +32,12 @@ const orderSchema=mongoose.Schema({
             required: true,
           },
           address: {
-            fName: String,
-            addressLine: String,
+            Fname: String,
+            Addressline: String,
             city: String,
-            country: String,
-            state:String,
-            pincode: Number,
+            Country: String,
+            State:String,
+            Pincode: Number,
           },
           paymentMethod: {
             type: String,

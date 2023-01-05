@@ -4,6 +4,7 @@ const productDB = require("../models/addproductmodel");
 const cartDB = require("../models/cartmodel");
 const AddresDB = require("../models/address");
 const orderdB = require("../models/ordermodel")
+const bannerDB=require("../models/bannermodel")
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const { sendotp, verifyotp } = require("../verification/otp");
@@ -14,18 +15,25 @@ const { render } = require("ejs");
 const { response } = require("express");
 
 const getUserhome = async (req, res) => {
+  try{
   const categorylist = await categoryDB.find();
   const productlist = await productDB.find();
+  const bannerdata = await bannerDB.find();
   res.render("user/userHome", {
     categorylist,
     productlist,
+    bannerdata,
     user: req.session.user,
-  });
+   });
+}catch(error){
+  res.render("admin/errorpage")
 };
+}
 
 
 const userlogin = (req, res) => {
-  res.render("user/UserLogin");
+  res.render("user/UserLogin",{usRblockERR:req.flash("usRblockERR"),
+  passERR:req.flash("passERR")});
 };
 
 
@@ -36,8 +44,13 @@ const userlogout=(req,res)=>{
 
 
 const getUserSignUp = (req, res) => {
-  res.render("user/userSignUp");
+  res.render("user/userSignUp",{
+ PassMatchERR:req.flash("PassMatchERR")
+,EmailExist:req.flash("EmailExist")});
 };
+
+
+
 const otp = (req, res) => {
   res.render("user/otpverification");
 };
@@ -52,6 +65,7 @@ const getUserregister = async (req, res) => {
   const Number = req.body.mobile_number;
   if (pass1 !== pass2) {
     console.log("password not match");
+    req.flash("PassMatchERR","password does not match")
     res.redirect("/usersignup");
   } else {
     const hashpassword = await bcrypt.hash(pass1, 10);
@@ -62,6 +76,7 @@ const getUserregister = async (req, res) => {
       console.log(user);
       if (user) {
         console.log("exist email");
+        req.flash("EmailExist","Email already exist")
         res.redirect("/usersignup");
       } else {
         user = UserDB({
@@ -149,21 +164,24 @@ const postUserhome = async (req, res) => {
             res.redirect("/");
           } else {
             console.log("User blocked");
+            req.flash("usRblockERR","YoU are blocked")
             res.redirect("/userlogin");
           }
         } else {
           console.log("wrong password");
+          req.flash("passERR","Wrong passwor or email")
           res.redirect("/userlogin");
         }
       });
     }
-  } catch {
-    console.log("catched");
+  } catch(error){
+    res.render("admin/errorpage")
   }
 };
 
 
 const getproductdetails = async (req, res) => {
+  try{
   console.log(req.params.id);
   const product_dtails = req.params.id;
   const productsdatails = await productDB.findById({ _id: product_dtails });
@@ -172,10 +190,14 @@ const getproductdetails = async (req, res) => {
     productsdatails,
     user: req.session.user,
   });
+}catch(error){
+  res.render("admin/errorpage");
 };
+}
 
 
 const getproducts = async (req, res) => {
+  try{
   const categorylist = await categoryDB.find();
   const productlist = await productDB.find();
   res.render("user/products", {
@@ -183,7 +205,10 @@ const getproducts = async (req, res) => {
     productlist,
     user: req.session.user,
   });
+}catch(error){
+  res.render("admin/errorpage")
 };
+}
 
 
 const getviewcart = async (req, res) => {
@@ -198,8 +223,8 @@ const getviewcart = async (req, res) => {
     }else{
       res.render("user/emptycart", {user: req.session.user });
     }
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    res.render("admin/errorpage")
   }
 };
 
@@ -212,9 +237,16 @@ const postviewcart = async (req, res) => {
     const user = await cartDB.findOne({ owner: User });
     const product = await productDB.find({ _id: productId });
     console.log(product, user);
+    let price;
+    if(product.discountPrice<product.Prize&&product.discountPrice!=0){
+     price=product[0].discountPrice;
+    }else{
+      price=product[0].Prize;
+    }
 
-    if (product[0].quantity < 1) {
+    if(product[0].quantity < 1) {
       console.log("noo adition");
+      res.json({noAvailability:true})
     } else {
       const productprize = product[0].Prize;
       if (!user) {
@@ -227,12 +259,38 @@ const postviewcart = async (req, res) => {
           console.log(resp);
         });
       } else {
+        console.log("=====================");
         const existProduct = await cartDB.findOne({
           owner: User,
           "items.productDedtails": productId,
         });
-        if (existProduct) {
-          console.log(existProduct + "+++++++++++++++++++");
+        if (existProduct !=null) {
+          console.log("+++++++++++++++++++++++++");
+         const  proQuantity=await cartDB.aggregate([
+          {
+            $match:{owner:mongoose.Types.ObjectId(User)}},
+            {
+              $project:{
+                items:{
+                  $filter:{
+                    input:"$item",
+                    cond:{
+                      $eq:[
+                        "$$this.productDedtails",
+                        mongoose.Types.ObjectId(productId)
+                      ],
+                    },
+                  },
+                },
+              },
+            },
+         ]);
+    console.log(proQuantity,"00000000000000000000000");
+    const quantity=  proQuantity[0].items[0].quantity;
+    console.log(quantity,"--------------------------------------------");
+    if(product.quantity<=quantity){
+      res.json({ stockReached: true });
+    }else{ console.log(existProduct + "+++++++++++++");
           await cartDB
             .updateOne(
               { owner: User, "items.productDedtails": productId },
@@ -250,7 +308,8 @@ const postviewcart = async (req, res) => {
             .catch((err) => {
               console.log(err);
             });
-        } else {
+        }}
+        else {
           await cartDB.updateOne(
             { owner: User },
             {
@@ -263,8 +322,8 @@ const postviewcart = async (req, res) => {
         }
       }
     }
-  } catch {
-    console.log("err");
+  } catch(error){
+    res.render("admin/errorpage")
   }
 };
 
@@ -298,6 +357,10 @@ const changequantity = async (req, res) => {
     res.render("admin/errorpage");
   }
 };
+
+
+
+
 
 const deletecartproduct = async (req, res) => {
   try {
@@ -333,6 +396,7 @@ const deletecartproduct = async (req, res) => {
 
 
 const getprofile = async (req, res) => {
+  try{
   const User = req.session.user._id;
   const addressdetails = await AddresDB.findOne({ User: User });
   let address;
@@ -342,11 +406,18 @@ const getprofile = async (req, res) => {
     address = [];
   }
   res.render("user/profile", { address, user: req.session.user });
+}catch(error){
+  res.render("admin/errorpage")
 };
+}
 
 
 const getaddress = (req, res) => {
+  try{
   res.render("user/address", { user: req.session.user });
+}catch(erro){
+  res.render("admin/errorpage");
+}
 };
 
 
@@ -380,8 +451,8 @@ const addresdetails = async (req, res) => {
       console.log("DSFHGFHJFi");
       res.redirect("/address");
     }
-  } catch {
-    (err) => {
+  }catch {
+    (error) => {
       res.render("admin/errorpage");
     };
   }
@@ -402,6 +473,7 @@ const deleteaddress= async (req,res)=>{
 
 
 const geteditaddress=async(req,res)=>{
+  try{
 console.log(req.params.id);
 const user=req.session.user._id
 const addressdetails= await AddresDB.findOne({User:user})
@@ -411,6 +483,9 @@ const address= addressdetails.Address.find((el)=>
 );
 console.log(address);
   res.render("user/editaddress",{address,user: req.session.user,EdiaddressERR:req.flash("EdiaddressERR") })
+}catch(error){
+  res.render("admin/errorpage")
+}
 }
 
 
@@ -455,6 +530,7 @@ const PostEditaddress=async(req,res)=>{
 
 
 const  getcheckout=async(req,res)=>{
+  try{
   const User = req.session.user._id;
   const addressdetails = await AddresDB.findOne({ User: User });
   const cartitems = await cartDB
@@ -467,6 +543,9 @@ const  getcheckout=async(req,res)=>{
     address = [];
   }
   res.render("user/checkout", {cartitems, address, user: req.session.user,purchasErr:req.flash("purchasErr") });
+}catch(error){
+  res.render("admin/errorpage")
+}
 }
 
 
@@ -476,10 +555,10 @@ const payment =async(req,res)=>{
   console.log(addressindex,paymethod);
   const userid=req.session.user._id;
   const selectedaddress= await AddresDB.findOne({User:userid})
-  const address=selectedaddress.Address[addressindex];
+  const address=selectedaddress.Address[parseInt(addressindex)];
   const cartdetails=await cartDB.findOne({owner:userid}).populate("items.productDedtails")
   const cartitem=cartdetails.items;
-  console.log(cartitem,"thre threw ");
+  console.log(cartitem,address,selectedaddress,"thre threw +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
   const carttotal=cartdetails.totalCart;
  if(addressindex&&paymethod)
  {
@@ -513,6 +592,41 @@ else
 
 
 
+const  ordersucecss=(req,res)=>{
+  try{
+  res.render("user/ordersuccess",{user: req.session.user })
+  }catch(error){
+    res.render("admin/errorpage")
+  }
+}
+
+
+
+const  getorderlist=async(req,res)=>{
+  try{
+  const orderdetials = await orderdB.find({UserId:req.session.user}).populate("UserId").sort({'createdAt':-1});
+  console.log(orderdetials,"checkk order listt");
+  res.render("user/orderlist",{orderdetials,user: req.session.user })
+  }catch(error){
+    res.render("admin/errorpage")
+  }
+}
+
+
+const orderdetials=async(req,res)=>{
+  try{
+    
+  const odrdtls=await orderdB.findOne({_id:req.params.id}).populate("Products.productDedtails")
+  console.log("<><><><><><>>>>><>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><",odrdtls);
+     res.render("user/ordersuccess",{odrdtls,user: req.session.user})
+}catch(error){
+ res.render("admin/errorpage")
+}
+}
+
+
+
+
 
 
 module.exports = {
@@ -537,5 +651,8 @@ module.exports = {
   getcheckout,
   userlogout,
   payment,
-  PostEditaddress
+  PostEditaddress,
+  ordersucecss,
+  getorderlist,
+  orderdetials
 };

@@ -65,7 +65,8 @@ figure.zoom img {
 
                             <div class="item-slick3" data-thumb="/images/<%- productsdatails.ImageURL[1] %>">
                                 <div class="wrap-pic-w pos-relative">
-                                    <img src="/images/<%- productsdatails.ImageURL[1] %>" alt="IMG-PRODUCT">
+                                    <figure   class="zoom" onmousemove="zoom(event)" style="background-image: url('/images/<%= productsdatails.ImageURL[1] %>')">
+                                    <img src="/images/<%- productsdatails.ImageURL[1] %>" alt="IMG-PRODUCT"></figure>
 
                                     <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="/images/<%- productsdatails.ImageURL[1] %>">
                                         <i class="fa fa-expand"></i>
@@ -75,7 +76,8 @@ figure.zoom img {
 
                             <div class="item-slick3" data-thumb="/images/<%- productsdatails.ImageURL[2] %>">
                                 <div class="wrap-pic-w pos-relative">
-                                    <img src="/images/<%- productsdatails.ImageURL[2] %>" alt="IMG-PRODUCT">
+                                    <figure   class="zoom" onmousemove="zoom(event)" style="background-image: url('/images/<%= productsdatails.ImageURL[2] %>')">
+                                    <img src="/images/<%- productsdatails.ImageURL[2] %>" alt="IMG-PRODUCT"></figure>
                                   <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="/images/<%- productsdatails.ImageURL[2] %>">
                                         <i class="fa fa-expand"></i>
                                     </a>
@@ -143,7 +145,7 @@ figure.zoom img {
 
                         <div class="flex-w flex-r-m p-b-10">
                             <div class="size-204 flex-w flex-m respon6-next">
-                                <div class="wrap-num-product flex-w m-r-20 m-tb-10">
+                                <!-- <div class="wrap-num-product flex-w m-r-20 m-tb-10">
                                     <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
                                         <i class="fs-16 zmdi zmdi-minus"></i>
                                     </div>
@@ -153,7 +155,7 @@ figure.zoom img {
                                     <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
                                         <i class="fs-16 zmdi zmdi-plus"></i>
                                     </div>
-                                </div>
+                                </div> -->
                                <button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail" onclick="addtocart('<%- productsdatails._id%>')">
                                     Add to cart
                                 </button>
@@ -647,9 +649,56 @@ figure.zoom img {
 </section>
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     async function addtocart(id){
-        let cart=await axios.post(`/postviewcart/${id}`)
+        let cart=await axios.post(`/postviewcart/${id}`).then((e)=>
+        {
+            if(e.data.noAvailability){
+                const Toast = Swal.mixin({
+  toast: true,
+  position: 'center',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+})
+
+Toast.fire({
+  icon: 'error',
+  title: 'product is out of stock'
+})
+  }else if(e.data.stockReached){
+    const Toast = Swal.mixin({
+  toast: true,
+  position: 'center',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+})
+
+Toast.fire({
+  icon: 'error',
+  title: 'stock  all ready reached'
+})
+
+  }else{
+    Swal.fire({
+  position: 'center',
+  icon: 'success',
+  title: 'Your product has been added to the cart',
+  showConfirmButton: false,
+  timer: 1500
+})
+  }
+ })
   console.log(id);
 }
 </script>

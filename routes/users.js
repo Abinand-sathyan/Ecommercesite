@@ -22,7 +22,10 @@ var{postUserhome,
     getcheckout,
     userlogout,
     payment,
-    PostEditaddress}=require("../controllers/usercontroler")
+    PostEditaddress,
+    ordersucecss,
+    getorderlist,
+    orderdetials}=require("../controllers/usercontroler")
 
 
     //get methods
@@ -38,7 +41,12 @@ var{postUserhome,
     router.get("/profile",usersession,checkBlock,getprofile);
     router.get("/address",usersession,checkBlock,getaddress);
     router.get("/editaddress/:id",usersession,checkBlock,geteditaddress);
-    router.get("/getcheckout",usersession,checkBlock,getcheckout)
+    router.get("/getcheckout",usersession,checkBlock,getcheckout);
+    router.get("/order-sucecss",usersession,checkBlock,ordersucecss);
+    router.get("/orderlist",usersession,checkBlock,getorderlist);
+    router.get("/orderdetails/:id",usersession,checkBlock,orderdetials)
+
+    
    
 
 
@@ -47,10 +55,10 @@ var{postUserhome,
     router.post("/register",getUserregister);
     router.post("/gethome",postUserhome);
     // router.post("/userlogin",postotp);
-    router.post('/postviewcart/:id',postviewcart);
-    router.post("/addressdetails",addresdetails);
-    router.post("/checkout",payment)
-    router.post("/PostEditaddress/:id",PostEditaddress)
+    router.post('/postviewcart/:id',usersession,checkBlock,postviewcart);
+    router.post("/addressdetails",usersession,checkBlock,addresdetails);
+    router.post("/checkout",usersession,checkBlock,payment)
+    router.post("/PostEditaddress/:id",usersession,checkBlock,PostEditaddress)
     
 
     

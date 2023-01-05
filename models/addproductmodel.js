@@ -31,7 +31,29 @@ const addproductschema=mongoose.Schema({
     ImageURL:{
         type:Array,
         require:true,
-        }, 
+        },
+    date: {
+        type: String,
+        default:Date.now
+          },
+         
+    review:{
+        type:Number,
+         default:0
+        },
+    rating:{
+        type:Number,
+         default:0
+        },
+    offer:{
+        type:Number,
+        default: 0
+        },
+    discountPrice:{
+        type:Number,
+        default: 0
+        
+        } 
    },{
     timestamps:true
 })

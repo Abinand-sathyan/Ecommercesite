@@ -1,5 +1,6 @@
 const express=require('express')
 const upload=require("../middleware/muter")
+const bannermulter=require("../middleware/bannermulter")
 const session=require("../middleware/adminsession")
 const router=express.Router();
 const {getAdmin,
@@ -20,7 +21,12 @@ const {getAdmin,
     getproductedit,
     posteditproduct,
     getorderlist,
-    orderdetails} = require("../controllers/admincontroler");
+    orderdetails,
+    add_banner,
+    bannerlist,
+    changestatus,
+    postbannerdetails,
+    deletebanner} = require("../controllers/admincontroler");
 
 
     
@@ -29,27 +35,36 @@ const {getAdmin,
     router.get("/",getAdmin);
     
     router.get("/userdetails",session,getusers);
-    router.get("/block/:id",blockuser);
-    router.get("/unblock/:id",unblockuser);
+    router.get("/block/:id",session,blockuser);
+    router.get("/unblock/:id",session,unblockuser);
     router.get("/categorylist",session,getcategorylist);
     router.get("/getaddcategory",session,getaddcategory);
-    router.get("/categoryDelete/:id",categoryDelete);
-    router.get("/categoryEdit/:id",categoryEdit)
+    router.get("/categoryDelete/:id",session,categoryDelete);
+    router.get("/categoryEdit/:id",session,categoryEdit)
     router.get("/getproductlist",session,getproductlist)
-    router.get("/getaddproduct",getaddproduct)
-    router.get("/productDelete/:id",productDelete);
-    router.get("/getproductedit/:id",getproductedit);
+    router.get("/getaddproduct",session,getaddproduct)
+    router.get("/productDelete/:id",session,productDelete);
+    router.get("/getproductedit/:id",session,getproductedit);
     router.get("/getorderlist",session,getorderlist)
-    router.get("/orderdetails/:id",orderdetails)
+    router.get("/orderdetails/:id",session,orderdetails)
+    router.get("/addbanner",add_banner);
+    router.get("/bannerlist",bannerlist);
     
 
     //post methods
 
     router.post("/Adminlogin",AdminLogin);
-    router.post("/postaddcategory",upload.array("ImageURL",3),postaddcategory);
-    router.post("/posteditcategory/:id",upload.array("ImageURL",3),posteditcategory);
-    router.post("/postproductdata",upload.array("ImageURL",4),postproductdata);
-    router.post("/posteditproduct/:id",upload.array("ImageURL",4),posteditproduct);
+    router.post("/postaddcategory",session,upload.array("ImageURL",3),postaddcategory);
+    router.post("/posteditcategory/:id",session,upload.array("ImageURL",3),posteditcategory);
+    router.post("/postproductdata",session,upload.array("ImageURL",4),postproductdata);
+    router.post("/posteditproduct/:id",session,upload.array("ImageURL",4),posteditproduct);
+    router.post("/bannerdetails",session,bannermulter.array("ImageURL",2),postbannerdetails);
+    router.post("/orderstatus",session,changestatus)
+   
+
+    //delete methods
+   
+    router.delete("/deletebanner",session,deletebanner)
      
 
 

@@ -57,6 +57,15 @@
 	              <span toggle="#password-confirm" class="fa fa-fw fa-eye field-icon toggle-password"></span>
 	              <span class="icon fa fa-lock"></span>
 	            </div>
+				<% if(PassMatchERR.length>0){ %> 
+					<div class=" alert alert-danger" role="alert">
+					  <p class="text-danger"><%=PassMatchERR %> </p>
+					</div>
+					<% } else if (EmailExist.length>0) { %>
+						<div class=" alert alert-danger" role="alert">
+							<p class="text-danger"><%=EmailExist %> </p>
+						  </div>
+					  <% } %> 
 	            <div class="form-group">
 	            	<button type="submit" class="form-control btn btn-primary submit px-3">Sign Up</button>
 	            </div>

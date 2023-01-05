@@ -220,17 +220,20 @@ Swal.fire({
   icon: 'success',
   title: 'Your order has been placed',
   showConfirmButton: false,
+  confirmButtonText:"Order successfully",
   timer: 2000
 })
-         })
-         .then((result)=>{
-            if(result.isConfirmed){
+ .then((result)=>{
+    console.log(result);
+            if(false){
+               
               location.href = '/order-sucecss'
 
-            }else if(result.isDenied){
-              location.href = '/getviewcart'
+            }else{
+              location.href = '/products'
             }
           })
+        })
         
 }
         

@@ -42,9 +42,19 @@
                                 <td class="column-3"><%= cart.productDedtails.Prize %></td>
                                 <td class="column-4">
                                     <div class="wrap-num-product flex-w m-l-auto m-r-0">
-                                        <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m" onclick="changequantity('<%= cartitems._id%>','<%= cart.productDedtails._id%>','-1')">
+                                        <% if (cart.quantity>1) { %>
+                                            <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m" onclick="changequantity('<%= cartitems._id%>','<%= cart.productDedtails._id%>','-1')">
+                                                <i class="fs-16 zmdi zmdi-minus"></i>
+                                            </div>
+                                            <% } else { %>
+                                                <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m" style="visibility:hidden ;" onclick="changequantity('<%= cartitems._id%>','<%= cart.productDedtails._id%>','-1')">
+                                                    <i class="fs-16 zmdi zmdi-minus"></i>
+                                                </div> 
+                                         
+                                        <% } %>
+                                        <!-- <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m" onclick="changequantity('<%= cartitems._id%>','<%= cart.productDedtails._id%>','-1')">
                                             <i class="fs-16 zmdi zmdi-minus"></i>
-                                        </div>
+                                        </div> -->
 
                                         <input class="mtext-104 cl3 txt-center num-product" id="qty" type="number" name="quantity" value='<%- cart.quantity %>' readonly>
 
