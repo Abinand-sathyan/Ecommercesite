@@ -56,7 +56,13 @@ const orderSchema=mongoose.Schema({
           },
           returnreason:{
             trpe:String,
-          }
+          },
+         useWallet:{
+            type:Number,
+          },
+          couponDiscount:{
+            type:Number,
+          },
 },{
     timestamps:true
 });

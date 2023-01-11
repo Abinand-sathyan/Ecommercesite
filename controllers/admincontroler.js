@@ -2,7 +2,8 @@ const UserDB = require("../models/userModel");
 const categoryDB = require("../models/categorymodel");
 const productDB = require("../models/addproductmodel");
 const orderDB = require("../models/ordermodel");
-const bannerDB=require("../models/bannermodel")
+const bannerDB=require("../models/bannermodel");
+const coponDB=require("../models/coupon");
 const mongoose = require("mongoose");
 const moment = require("moment");
 const { findOne, findById, validate } = require("../models/userModel");
@@ -307,12 +308,12 @@ const getproductedit = async (req, res) => {
 
 const posteditproduct = async (req, res) => {
   try {
-    console.log(req.body, req.files, req.params,"++++++++++++++++++++++++");
+    console.log(req.body, req.files, req.params);
     const body = req.body;
     const productId = req.params.id;
     console.log(productId);
     if (req.files.length === 0) {
-      console.log(productId, "jjkhghghgkvjsa");
+      console.log(productId);
     //  let abcd =  await productDB.findByIdAndUpdate(productId, 
     //     { $set: body });
     Object.assign(body);
@@ -339,7 +340,7 @@ const posteditproduct = async (req, res) => {
 const getorderlist = async (req, res) => {
   try {
     const orderdetials = await orderDB.find().populate("UserId").sort({'createdAt':-1});
-    console.log(orderdetials);
+    console.log(orderdetials,"thryrtyetretyeteyrebiudfyvb");
     res.render("admin/orderlist", { orderdetials });
   } catch (error) {
     res.render("admin/errorpage");
@@ -405,16 +406,111 @@ const deletebanner=async(req,res)=>{
   console.log(req.body);
   const bannerid=req.body.id1
   const deletebanner=await bannerDB.findOne({_id:bannerid}).remove()
-//  const deletebanner=await bannerDB.findOneAndUpdate(
-//     {_id:bannerid},
-//     {$set:{delete:true}});
-    // deletebanner.save().then(()=>
-    res.json({status:true})
+   res.json({status:true})
 
 }catch(error){
   res.render("admin/errorpage")
 }
 }
+
+const getcoupon=async(req,res)=>{
+  const coupondetails=await coponDB.find().sort({timeStamp:-1})
+  res.render("admin/couponlist",{coupondetails})
+}
+
+
+
+const add_coupon=(req,res)=>{
+  res.render("admin/addcoupon",{Exstcpn:req.flash("Exstcpn"),
+  FullFill:req.flash("FullFill")})
+}
+
+
+const postcoupondetials=async(req,res)=>{
+  try{
+ const {code,
+  cutOff,
+  couponType,
+  maxRedeemAmount,
+  minCartAmount,
+  generateCount,
+  expireDate}=req.body;
+  console.log(code,
+    cutOff,
+    couponType,
+    maxRedeemAmount,
+    minCartAmount,
+    generateCount,
+    expireDate);
+  if(code
+    &&cutOff
+    &&couponType
+    &&maxRedeemAmount
+    &&minCartAmount
+    &&generateCount
+    &&expireDate){
+      const Regex=new RegExp(code,'i')
+      const Checkcode=await coponDB.find({code:{$regex:Regex}})
+      if(Checkcode.length==0)
+      {
+        const coupondata=new coponDB(req.body);
+        await coupondata.save().then(()=>{
+          res.redirect("/admin/addcoupen")
+        })
+      }else{
+        req.flash("Exstcpn","coupon already Exist")
+        res.redirect("/admin/addcoupen")
+      }
+    }else{
+      req.flash("FullFill","Full fill the coloums")
+      res.redirect("/admin/addcoupen")
+    }
+  }catch(error){
+    res.render("admin/errorpage")
+
+  }
+}
+
+
+const CoponActive=async(req,res)=>{
+  try{
+  console.log(req.query.id);
+  await coponDB.findByIdAndUpdate({_id:req.query.id},
+    {$set:{status:"ACTIVE"}
+}).then(()=>{
+  res.redirect("/admin/coupon")
+})
+  }catch(error){
+    res.render("admin/errorpage")
+  }
+} 
+
+
+const CoponBlock=async(req,res)=>{
+  try{
+  console.log(req.query.id);
+  await coponDB.findByIdAndUpdate({_id:req.query.id},
+    {$set:{status:"BLOCK"}
+}).then(()=>{
+  res.redirect("/admin/coupon")
+})
+  }catch(error){
+    res.render("admin/errorpage")
+  }
+} 
+
+const deletecoupon=async(req,res)=>{
+  try{
+const coupid=req.body.id1;
+await coponDB.findByIdAndRemove(coupid).then((response)=>{
+  res.json({response:true});
+})
+  }catch(error){
+   req.render("admin/errorpage")
+  }
+}
+
+
 
 
 const changestatus=async(req,res)=>{
@@ -456,6 +552,11 @@ const changestatus=async(req,res)=>{
 }
 
 
+const salesreport=(req,res)=>{
+  res.render("admin/salesreport")
+}
+
+
 
 
 
@@ -483,5 +584,12 @@ module.exports = {
   bannerlist,
   changestatus,
   postbannerdetails,
-  deletebanner
+  deletebanner,
+  getcoupon,
+  add_coupon,
+  postcoupondetials,
+  CoponBlock,
+  CoponActive,
+  deletecoupon,
+  salesreport
 };

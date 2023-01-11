@@ -28,7 +28,11 @@ const UserSchema=new mongoose.Schema({
     block:{
       type:Boolean,
       default:true
-    }
+    },
+    useWallet:{
+        type:Number,
+        default:0
+      },
 
 });
 let user=mongoose.model('User',UserSchema)

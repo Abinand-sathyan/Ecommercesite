@@ -1,6 +1,12 @@
 <%- include('partials/userheader.ejs') %>
+
 <!-- breadcrumb -->
 <div class="container" style="padding-top: 7rem;">
+    <% if (prolimit.length!=0) { %>
+        <span class="stext-112 cl8" style="color: red;">
+        <%= prolimit %> 
+        </span>
+    <% } %>
     <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
         <a href="index.html" class="stext-109 cl8 hov-cl1 trans-04">
             Home
@@ -171,21 +177,45 @@
                     <a href="getcheckout"><button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 pointer">
                         Proceed to Checkout
                     </button></a>
-                </div>
+                    
+                    </div>
             </div>
         </div>
     </div>
 <!-- </form> -->
 <%- include('partials/userfooter.ejs') %>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
 function changequantity(cartId,proId,count)
 {
     console.log("fdcnbjfjnf");
   axios.patch(`/cart?cartId=${cartId}&productId=${proId}&count=${count}`)
-  .then(()=>{
+  .then((response)=>{
+    if(response.data.stockReached==true)
+    {
+        const Toast = Swal.mixin({
+  toast: true,
+  position: 'center',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+})
+
+Toast.fire({
+  icon: 'error',
+  title: 'product is out of stock'
+}).then(()=>{
     location.reload()
+})
+    }else{
+    location.reload()
+    }
   })
 }
  

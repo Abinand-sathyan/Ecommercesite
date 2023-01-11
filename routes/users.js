@@ -25,7 +25,12 @@ var{postUserhome,
     PostEditaddress,
     ordersucecss,
     getorderlist,
-    orderdetials}=require("../controllers/usercontroler")
+    orderdetials,
+    verifycoupon,
+    cancellorder,
+    refundorder,
+    createorder,
+    veryfypayment}=require("../controllers/usercontroler")
 
 
     //get methods
@@ -45,7 +50,7 @@ var{postUserhome,
     router.get("/order-sucecss",usersession,checkBlock,ordersucecss);
     router.get("/orderlist",usersession,checkBlock,getorderlist);
     router.get("/orderdetails/:id",usersession,checkBlock,orderdetials)
-
+   
     
    
 
@@ -59,7 +64,11 @@ var{postUserhome,
     router.post("/addressdetails",usersession,checkBlock,addresdetails);
     router.post("/checkout",usersession,checkBlock,payment)
     router.post("/PostEditaddress/:id",usersession,checkBlock,PostEditaddress)
-    
+    router.post("/verifycoupon",usersession,checkBlock,verifycoupon)
+    router.post("/cancellorder",usersession,checkBlock,cancellorder)
+    router.post("/refundorder",usersession,checkBlock,refundorder)
+    router.post("/create-order",usersession,checkBlock,createorder)
+    router.post("/veryfypayment",usersession,checkBlock,veryfypayment)
 
     
     

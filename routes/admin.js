@@ -26,7 +26,14 @@ const {getAdmin,
     bannerlist,
     changestatus,
     postbannerdetails,
-    deletebanner} = require("../controllers/admincontroler");
+    deletebanner,
+    getcoupon,
+    add_coupon,
+    postcoupondetials,
+    CoponActive,
+    CoponBlock,
+    deletecoupon,
+    salesreport} = require("../controllers/admincontroler");
 
 
     
@@ -40,15 +47,20 @@ const {getAdmin,
     router.get("/categorylist",session,getcategorylist);
     router.get("/getaddcategory",session,getaddcategory);
     router.get("/categoryDelete/:id",session,categoryDelete);
-    router.get("/categoryEdit/:id",session,categoryEdit)
-    router.get("/getproductlist",session,getproductlist)
-    router.get("/getaddproduct",session,getaddproduct)
+    router.get("/categoryEdit/:id",session,categoryEdit);
+    router.get("/getproductlist",session,getproductlist);
+    router.get("/getaddproduct",session,getaddproduct);
     router.get("/productDelete/:id",session,productDelete);
     router.get("/getproductedit/:id",session,getproductedit);
-    router.get("/getorderlist",session,getorderlist)
-    router.get("/orderdetails/:id",session,orderdetails)
+    router.get("/getorderlist",session,getorderlist);
+    router.get("/orderdetails/:id",session,orderdetails);
     router.get("/addbanner",add_banner);
-    router.get("/bannerlist",bannerlist);
+    router.get("/bannerlist",session,bannerlist);
+    router.get("/addcoupen",session,add_coupon);
+    router.get("/CoponActive",session,CoponActive);
+    router.get("/CoponBlock",session,CoponBlock);
+    router.get("/salesreport",session,salesreport);
+
     
 
     //post methods
@@ -60,12 +72,23 @@ const {getAdmin,
     router.post("/posteditproduct/:id",session,upload.array("ImageURL",4),posteditproduct);
     router.post("/bannerdetails",session,bannermulter.array("ImageURL",2),postbannerdetails);
     router.post("/orderstatus",session,changestatus)
+    // router.post("/coupondetails",session,postcoupondetials)
+
    
 
     //delete methods
    
     router.delete("/deletebanner",session,deletebanner)
-     
+
+
+    //chain router
+
+
+    router.
+    route('/coupon')
+    .get(session,getcoupon)
+    .post(session,postcoupondetials)
+    .delete(session,deletecoupon)
 
 
 
